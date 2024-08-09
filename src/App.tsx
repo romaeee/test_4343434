@@ -1,14 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState<number>(() => {
+    // Load click nambers
+    const savedCount = localStorage.getItem('clickCount');
+    return savedCount !== null ? parseInt(savedCount) : 0;
+  });
+
+  // Save click Numbers
+  useEffect(() => {
+    localStorage.setItem('clickCount', count.toString());
+  }, [count]);
 
   return (
     <>
-      <h1>Vite + React</h1>
+      <h1>Clicker</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -21,7 +28,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
